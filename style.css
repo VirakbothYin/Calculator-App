@@ -4,14 +4,29 @@ body {
     justify-content: center; /* Centers content horizontally */
     align-items: center; /* Centers content vertically */
     height: 100vh; /* Sets the height of the body to the full viewport height */
-    background-color: white; /* Sets the background color of the body to white */
+    background: linear-gradient(45deg,black,gray,black);
+    background-size: 400% 400%; /* Sets the background color of the body to white */
     font-family: Arial, Helvetica, sans-serif; /* Sets the font family for the entire body */
     margin: 0; /* Removes default margin for consistent centering */
+    animation: gradientAnimation 10s linear infinite;
 }
+@keyframes gradientAnimation {
+    0% {
+        background-postion: 100% 0% ;
+    }
+    50% {
+        background-position: 0% 100% ;
+    }
+    100% {
+        background-position: 100% 0% ;
+    }
+}
+
+
 
 /* Style for the calculator container */
 .calculator {
-    background: white; /* Sets the background color of the calculator container */
+    background: rgb(0, 0, 0); /* Sets the background color of the calculator container */
     border-radius: 10px; /* Rounds the corners of the calculator container */
     padding: 20px; /* Adds padding inside the calculator container */
     width: 300px; /* Sets a fixed width for the calculator container */
@@ -41,10 +56,10 @@ body {
 .button {
     padding: 20px; /* Adds padding inside each button */
     font-size: 18px; /* Sets the font size for button text */
-    background: #007bff; /* Sets the default background color for buttons */
+    background: #3f3f3f; /* Sets the default background color for buttons */
     color: white; /* Sets the text color to white */
     border: none; /* Removes the default border */
-    border-radius: 5px; /* Rounds the corners of the buttons */
+    border-radius: 90px; /* Rounds the corners of the buttons */
     cursor: pointer; /* Changes the cursor to a pointer on hover */
     transition: background 0.3s; /* Adds a smooth transition effect for background color changes */
 }
@@ -56,7 +71,7 @@ button:hover {
 
 /* Style for operator buttons (e.g., +, -, *, /) */
 .operator {
-    background: #28a745; /* Sets a distinct background color for operator buttons */
+    background: #b97c00; /* Sets a distinct background color for operator buttons */
 }
 
 /* Hover effect for operator buttons */
