@@ -1,0 +1,58 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Calculator</title>
+</head>
+<body>
+    <!-- Main container for the calculator -->
+    <div class="calculator">
+        <!-- Input field to display numbers and results -->
+        <input type="text" id="display" class="display" placeholder="Enter Number">
+        
+        <!-- Container for all calculator buttons -->
+        <div class="buttons">
+            <!-- Clear button to reset the display -->
+            <button class="button" onclick="clearDisplay('')">C</button>
+            
+            <!-- Number buttons for digits 7, 8, and 9 -->
+            <button class="button" onclick="appendToDisplay('7')">7</button>
+            <button class="button" onclick="appendToDisplay('8')">8</button>
+            <button class="button" onclick="appendToDisplay('9')">9</button>
+            
+            <!-- Division operator button -->
+            <button class="button operator" onclick="appendToDisplay('/')">/</button>
+            
+            <!-- Number buttons for digits 4, 5, and 6 -->
+            <button class="button" onclick="appendToDisplay('4')">4</button>
+            <button class="button" onclick="appendToDisplay('5')">5</button>
+            <button class="button" onclick="appendToDisplay('6')">6</button>
+            
+            <!-- Multiplication operator button -->
+            <button class="button operator" onclick="appendToDisplay('*')">*</button>
+            
+            <!-- Number buttons for digits 1, 2, and 3 -->
+            <button class="button" onclick="appendToDisplay('1')">1</button>
+            <button class="button" onclick="appendToDisplay('2')">2</button>
+            <button class="button" onclick="appendToDisplay('3')">3</button>
+            
+            <!-- Subtraction operator button -->
+            <button class="button operator" onclick="appendToDisplay('-')">-</button>
+            
+            <!-- Addition operator button -->
+            <button class="button operator" onclick="appendToDisplay('+')">+</button>
+            
+            <!-- Equals button to calculate and display the result -->
+            <button class="button operator" onclick="calculateResult('=')">=</button>
+            
+            <!-- Zero button for the digit 0 -->
+            <button class="button" onclick="appendToDisplay('0')">0</button>
+        </div>
+    </div>
+    
+    <!-- Link to the external JavaScript file for calculator functionality -->
+    <script src="script.js"></script>
+</body>
+</html>
