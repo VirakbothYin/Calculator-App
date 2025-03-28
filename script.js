@@ -1,41 +1,50 @@
-// Appends a value to the display input field
-function appendToDisplay(value) {
-    const display = document.getElementById('display'); // Get the display input element by its ID
-    // If the current value is '0', replace it with the new value; otherwise, append the new value
-    display.value = (display.value === '0') ? value : display.value + value;
-    updateResult(display.value); // Update the result preview based on the current input
+// Function to update the digital clock display
+function updateClock() {
+    const now = new Date(); // Get the current date and time
+    let hours = now.getHours(); // Extract the current hour
+    const minutes = String(now.getMinutes()).padStart(2, '0'); // Extract and format the minutes (2 digits)
+    const seconds = String(now.getSeconds()).padStart(2, '0'); // Extract and format the seconds (2 digits)
+    const amPm = hours >= 12 ? 'PM' : 'AM'; // Determine if it's AM or PM
+
+    hours = hours % 12 || 12; // Convert 24-hour format to 12-hour format (handle midnight as 12)
+    document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}:${amPm}`; // Update the clock display
 }
 
-// Clears the display and resets it to '0'
-function clearDisplay() {
-    document.getElementById('display').value = '0'; // Reset the display value to '0'
-    document.getElementById('display').setAttribute('data-result', '0'); // Reset the result attribute to '0'
+// Call updateClock every second to keep the clock updated
+setInterval(updateClock, 1000);
+
+// Variables for stopwatch functionality
+let stopwatchInterval; // Holds the interval ID for the stopwatch
+let stopwatchTime = 0; // Tracks the elapsed time in seconds
+
+// Function to update the stopwatch display
+function updateStopwatchDisplay() {
+    const hours = String(Math.floor(stopwatchTime / 3600)).padStart(2, '0'); // Calculate and format hours
+    const minutes = String(Math.floor((stopwatchTime % 3600) / 60)).padStart(2, '0'); // Calculate and format minutes
+    const seconds = String(stopwatchTime % 60).padStart(2, '0'); // Calculate and format seconds
+    document.getElementById('stopwatchDisplay').textContent = `${hours}:${minutes}:${seconds}`; // Update the stopwatch display
 }
 
-// Calculates the result of the expression in the display
-function calculateResult() {
-    const display = document.getElementById('display'); // Get the display input element by its ID
-    try {
-        const result = eval(display.value); // Evaluate the mathematical expression in the display
-        display.setAttribute('data-result', result); // Store the result in a custom data attribute
-        display.value = result; // Update the display with the calculated result
-    } catch (e) {
-        // If an error occurs (e.g., invalid expression), set the result and display to 'Error'
-        display.setAttribute('data-result', 'Error');
-        display.value = 'Error';
-    }
-}
+// Start button functionality
+document.getElementById('startBtn').addEventListener('click', () => {
+    clearInterval(stopwatchInterval); // Clear any existing interval to avoid multiple intervals
+    stopwatchInterval = setInterval(() => {
+        stopwatchTime++; // Increment the stopwatch time by 1 second
+        updateStopwatchDisplay(); // Update the stopwatch display
+    }, 1000); // Run the interval every second
+});
 
-// Updates the result preview based on the current input value
-function updateResult(value) {
-    const display = document.getElementById('display'); // Get the display input element by its ID
-    try {
-        if (value) { // If the input value is not empty
-            const result = eval(value); // Evaluate the mathematical expression
-            display.value = result; // Update the display with the calculated result
-        }
-    } catch (e) {
-        // If an error occurs (e.g., invalid expression), keep the current input value
-        display.value = value;
-    }
-}
+// Stop button functionality
+document.getElementById('stopBtn').addEventListener('click', () => {
+    clearInterval(stopwatchInterval); // Stop the stopwatch by clearing the interval
+});
+
+// Reset button functionality
+document.getElementById('resetBtn').addEventListener('click', () => {
+    clearInterval(stopwatchInterval); // Stop the stopwatch
+    stopwatchTime = 0; // Reset the stopwatch time to 0
+    updateStopwatchDisplay(); // Update the display to show the reset time
+});
+
+// Initialize the clock display immediately when the page loads
+updateClock();
