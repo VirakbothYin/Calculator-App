@@ -1,50 +1,72 @@
-// Function to update the digital clock display
-function updateClock() {
-    const now = new Date(); // Get the current date and time
-    let hours = now.getHours(); // Extract the current hour
-    const minutes = String(now.getMinutes()).padStart(2, '0'); // Extract and format the minutes (2 digits)
-    const seconds = String(now.getSeconds()).padStart(2, '0'); // Extract and format the seconds (2 digits)
-    const amPm = hours >= 12 ? 'PM' : 'AM'; // Determine if it's AM or PM
-
-    hours = hours % 12 || 12; // Convert 24-hour format to 12-hour format (handle midnight as 12)
-    document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}:${amPm}`; // Update the clock display
+// Function to append a value to the calculator's display input field
+function appendToDisplay(value) {
+    // Retrieve the display input element from the HTML document
+    const display = document.getElementById('display');
+    
+    // Logic to handle display input:
+    // - If current display value is '0', replace it with the new value
+    // - Otherwise, concatenate the new value to the existing display content
+    display.value = (display.value === '0') ? value : display.value + value;
+    
+    // Optional: Update result preview (currently commented out in original code)
+    // updateResult(display.value);
 }
 
-// Call updateClock every second to keep the clock updated
-setInterval(updateClock, 1000);
-
-// Variables for stopwatch functionality
-let stopwatchInterval; // Holds the interval ID for the stopwatch
-let stopwatchTime = 0; // Tracks the elapsed time in seconds
-
-// Function to update the stopwatch display
-function updateStopwatchDisplay() {
-    const hours = String(Math.floor(stopwatchTime / 3600)).padStart(2, '0'); // Calculate and format hours
-    const minutes = String(Math.floor((stopwatchTime % 3600) / 60)).padStart(2, '0'); // Calculate and format minutes
-    const seconds = String(stopwatchTime % 60).padStart(2, '0'); // Calculate and format seconds
-    document.getElementById('stopwatchDisplay').textContent = `${hours}:${minutes}:${seconds}`; // Update the stopwatch display
+// Function to reset the calculator display to its initial state
+function clearDisplay() {
+    // Select the display input element
+    const display = document.getElementById('display');
+    
+    // Reset display value to '0'
+    display.value = '0';
+    
+    // Reset the custom data attribute 'data-result' to '0'
+    // This can be used to store calculation results separately from display
+    display.setAttribute('data-result', '0');
 }
 
-// Start button functionality
-document.getElementById('startBtn').addEventListener('click', () => {
-    clearInterval(stopwatchInterval); // Clear any existing interval to avoid multiple intervals
-    stopwatchInterval = setInterval(() => {
-        stopwatchTime++; // Increment the stopwatch time by 1 second
-        updateStopwatchDisplay(); // Update the stopwatch display
-    }, 1000); // Run the interval every second
-});
+// Function to calculate the mathematical result of the expression in the display
+function calculateResult() {
+    // Retrieve the display input element
+    const display = document.getElementById('display');
+    
+    try {
+        // Use JavaScript's eval() function to calculate the mathematical expression
+        // WARNING: eval() can be dangerous if used with untrusted input
+        const result = eval(display.value);
+        
+        // Store the calculated result in a custom data attribute
+        display.setAttribute('data-result', result);
+        
+        // Update the display with the calculated result
+        display.value = result;
+    } catch (e) {
+        // Error handling: If calculation fails (invalid expression)
+        // Set both the data attribute and display value to 'Error'
+        display.setAttribute('data-result', 'Error');
+        display.value = 'Error';
+    }
+}
 
-// Stop button functionality
-document.getElementById('stopBtn').addEventListener('click', () => {
-    clearInterval(stopwatchInterval); // Stop the stopwatch by clearing the interval
-});
+// Function to update result preview in real-time
+function updateResult(value) {
+    // Retrieve the display input element
+    const display = document.getElementById('display');
+    
+    try {
+        // Attempt to evaluate the current display value
+        const result = eval(display.value);
+        
+        // Note: There's a typo in the original code ('data-reuslt' instead of 'data-result')
+        // This has been corrected in the comments and implementation
+        display.setAttribute('data-result', result);
+        
+        // Update display with calculated result
+        display.value = result;
+    } catch (e) {
+        // Error handling: Set error state if calculation fails
+        display.setAttribute('data-result', 'Error');
+        display.value = 'Error';
+    }
+}
 
-// Reset button functionality
-document.getElementById('resetBtn').addEventListener('click', () => {
-    clearInterval(stopwatchInterval); // Stop the stopwatch
-    stopwatchTime = 0; // Reset the stopwatch time to 0
-    updateStopwatchDisplay(); // Update the display to show the reset time
-});
-
-// Initialize the clock display immediately when the page loads
-updateClock();
